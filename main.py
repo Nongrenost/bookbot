@@ -1,27 +1,37 @@
+import sys
+from stats import get_word_count
+
+
+
 def main():
-    book_path = "books/frankenstein.txt"
+    book_path = sys.argv[1]
+    check_args()
+    
     text = get_text(book_path)
     word_count = get_word_count(text)
     letter_count = count_letters(text)
     letters_sorted_only_alpha = get_only_alpha_list_sorted(letter_count)
     output(word_count, letters_sorted_only_alpha, book_path)
 
+def check_args():
+    if len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
 
 def get_text(path):
     with open(path) as f:
         return f.read()
 
 def output(word_count, letters, path):
-    print(f"--- Begin report of {path} ---")
-    print(f"Word count: {word_count}\n")
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {path}...")
+    print(f"----------- Word Count ----------")
+    print(f"Found {word_count} total words")
+    print("--------- Character Count -------")
     
     for record in letters:
-        print(f"Character {record["name"]} was found {record["value"]} times")
-    print("--- End report ---")
-
-def get_word_count(text):
-    _word_count = len(text.split())
-    return _word_count
+        print(f"{record["name"]}: {record["value"]}")
+    print("============= END ===============")
 
 def count_letters(text):
     counted_letters = {}   
